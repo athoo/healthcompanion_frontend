@@ -10,6 +10,7 @@ var parseTime = d3.time.format("%H:%M:%S").parse;
 
 var data = d3.json("./modified_steps_summary.json", function(error, data) {
 
+
 	data.forEach(function(x) {
 		x.steps_value = +x.steps_value;
 		x.dateTime = parseDate(x.dateTime);
@@ -25,12 +26,26 @@ var data = d3.json("./modified_steps_summary.json", function(error, data) {
 	var maxDate = dateDim.top(1)[0].dateTime;
 
 
+	var exerciseCount = dc.dataCount('#dc-data-count');
+
+	// var ndx = crossfilter(data);
+	var all = exs.groupAll();
+
+	exerciseCount
+	.dimension(exs)
+	.group(all)
+	.html({
+		some: '<strong>%filter-count</strong> selected out of <strong>%total-count</strong> records' +
+				' | <a href=\'javascript:dc.filterAll(); dc.renderAll();\'>Reset All</a>',
+		all: 'All records selected. Please click on the graph to apply filters.'
+	});
+
 	exerciseOverview
 	.width(width).height(200)
 	.dimension(dateDim)
 	.group(exercise_all)
 	.x(d3.time.scale().domain([minDate,maxDate]))
-	.yAxisLabel("Steps per day")
+	.yAxisLabel("Steps per day",100)
 	.elasticY(true)
 	.elasticX(true)
 	.xUnits(function(){return 80;})
