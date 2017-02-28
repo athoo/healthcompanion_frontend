@@ -68,10 +68,14 @@ var data = d3.json("./modified_steps_summary.json", function(error, data) {
 	});
 
 	var generateLabels = function(){
-		$('#labels').append("<button class='btn btn-primary'>hello baby</button>");
+		$('#labels').empty();
+		$('#addLabel').empty();
+		for (item in activityLabels) {
+			$('#labels').append("<button class='btn btn-primary life-label' style='margin:5px;'>"+ activityLabels[item] +"</button>");
+		}
+		$('#addLabel').append("<input type='text' id='newLabel' placeholder='Walking to Shopping Mall'></input>");
+		$('#addLabel').append("<input type='button' class='btn' id='submitLabel' value='Submit New Label'></input>");
 	}
-
-
 
 	var weekDayDim = exs.dimension(function(d) {return 'day'+'.'+week[d.weekDay];});
 	var weekDayGroup = weekDayDim.group().reduceSum(function(d) {return d.steps_value;});
@@ -86,22 +90,6 @@ var data = d3.json("./modified_steps_summary.json", function(error, data) {
 	})
 	.xAxis()
 	.ticks(4);
-
-	// var frequencyView = dc.barChart('#frequency_view');
-	// var exerciseDim = exs.dimension(function(d) {return d.steps_all;});
-	// var exerciseGroup = exerciseDim.group(function(d){
-	// 	return Math.floor(d/1000)*1000;
-	// }).reduceCount();
-	// var minExercise = exerciseDim.bottom(1)[0].steps_all;
-	// var maxExercise = exerciseDim.top(1)[0].steps_all;
-	//
-	// frequencyView
-	// .width(width).height(400)
-	// .dimension(exerciseDim)
-	// .group(exerciseGroup)
-	// .xUnits(function(){return 50;})
-	// .xAxisLabel("Steps per day")
-	// .x(d3.scale.linear().domain([minExercise, maxExercise]));
 
 	var exerciseDim = exs.dimension(function(d) {return d.steps_all;});
 	var exerciseGroup = exerciseDim.group(function(d){
@@ -130,10 +118,29 @@ var data = d3.json("./modified_steps_summary.json", function(error, data) {
 	.xAxisLabel("Intraday activities")
 	.elasticY(true)
 	.elasticX(true)
-	.x(d3.time.scale().domain([start_time,end_time]));
+	.brushOn(true)
+	.x(d3.time.scale().domain([start_time,end_time]))
+	.on('renderlet', function(chart) {
+			generateLabels();
+			$('#submitLabel').on('click', function() {
+				activityLabels.push($('#newLabel').val());
+				$('#labels').append("<button class='btn btn-primary life-label' style='margin:5px;'>"+ $('#newLabel').val() +"</button>");
+
+
+
+
+			});
+			$('.life-label').on('click', function(d) {
+				var plan = '<p>'+ d.target.innerText +'</br>From: '+ intradayDim.bottom(1)[0].time.toLocaleTimeString() +'</br>'+ intradayDim.top(1)[0].time.toLocaleTimeString() +'</p>'
+				$('#taskPlan').append(plan);
+				// console.log(d.target.innerText);
+			});
+
+		});
 
 
 	dc.renderAll()
 
-
 });
+
+var test;
