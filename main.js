@@ -6,7 +6,7 @@ var width = document.getElementById('exercise_overview').offsetWidth;
 var week = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 var parseDate = d3.time.format("%Y-%m-%d").parse;
 var parseTime = d3.time.format("%H:%M:%S").parse;
-
+var activityLabels = ['Study', 'Walking', 'Lecture Time', 'Meeting', 'Running', 'Swimming', 'Walking the dog', 'Playing with children at the backyard'];
 
 var data = d3.json("./modified_steps_summary.json", function(error, data) {
 
@@ -49,7 +49,29 @@ var data = d3.json("./modified_steps_summary.json", function(error, data) {
 	.elasticY(true)
 	.elasticX(true)
 	.xUnits(function(){return 80;})
-	.brushOn(true);
+	.brushOn(true)
+	.on('renderlet', function(chart) {
+		chart.selectAll('rect').on("click", function(d) {
+				console.log("click!", d);
+		});
+	});
+
+	$("#data-brush").on('click', function(d){
+		if (exerciseOverview.brushOn()==false) {
+			exerciseOverview.brushOn(true);
+			d.target.innerHTML="Turn off data brush";
+		} else {
+			exerciseOverview.brushOn(false);
+			d.target.innerHTML="Turn on data brush";
+		};
+		dc.renderAll()
+	});
+
+	var generateLabels = function(){
+		$('#labels').append("<button class='btn btn-primary'>hello baby</button>");
+	}
+
+
 
 	var weekDayDim = exs.dimension(function(d) {return 'day'+'.'+week[d.weekDay];});
 	var weekDayGroup = weekDayDim.group().reduceSum(function(d) {return d.steps_value;});
