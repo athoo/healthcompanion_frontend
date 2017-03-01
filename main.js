@@ -45,10 +45,9 @@ var data = d3.json("./modified_steps_summary.json", function(error, data) {
 	.dimension(dateDim)
 	.group(exercise_all)
 	.x(d3.time.scale().domain([minDate,maxDate]))
-	.yAxisLabel("Steps per day",100)
 	.elasticY(true)
 	.elasticX(true)
-	.xUnits(function(){return 80;})
+	.xUnits(function(){return 100;})
 	.brushOn(true)
 	.on('renderlet', function(chart) {
 		chart.selectAll('rect').on("click", function(d) {
@@ -126,12 +125,11 @@ var data = d3.json("./modified_steps_summary.json", function(error, data) {
 				activityLabels.push($('#newLabel').val());
 				$('#labels').append("<button class='btn btn-primary life-label' style='margin:5px;'>"+ $('#newLabel').val() +"</button>");
 
-
-
-
 			});
 			$('.life-label').on('click', function(d) {
-				var plan = '<p>'+ d.target.innerText +'</br>From: '+ intradayDim.bottom(1)[0].time.toLocaleTimeString() +'</br>'+ intradayDim.top(1)[0].time.toLocaleTimeString() +'</p>'
+				var plan = '<p class="tasks">'+ d.target.innerText +'&nbsp;&nbsp;From: '+ intradayDim.bottom(1)[0].time.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})
+           .replace(/(:\d{2}| [AP]M)$/, "") +'&nbsp;&nbsp;To: '+ intradayDim.top(1)[0].time.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})
+           .replace(/(:\d{2}| [AP]M)$/, "") +'</p>'
 				$('#taskPlan').append(plan);
 				// console.log(d.target.innerText);
 			});
