@@ -37,14 +37,14 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
+          <li class="nav-item">
             <a class="nav-link" href="/">Your Heath Data <span class="sr-only">(current)</span></a>
           </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Health Index</a>
           </li> -->
-          <li class="nav-item">
-            <a class="nav-link" href="/planning_page">Exercise Plan</a>
+          <li class="nav-item active">
+            <a class="nav-link">Exercise Plan</a>
           </li>
         </ul>
 
@@ -53,41 +53,12 @@
 
 
 <div class="container">
-<div id="dc-data-count"></div>
-<button class="btn btn-success" style="float:right;" id="planning_page" onclick="location.href='/planning_page'">Schedule exercise Plan</button>
-</br>
-<!-- <button id="data-brush" class="btn btn-primary" type="button">Turn on data brush</div> -->
-<section id="exercise_overview">
- <strong>Steps per day</strong>
+<button class="btn btn-success" style="float:right;" id="planning_page"  onclick="location.href='/'">Schedule exercise Plan</button>
 
-</section>
 
-<div id="customizeLabel">
-  <strong>Labels we recommend for your daily life.</strong>
-  <pre>In this section, your can select the time interval of the day and label them with your daily activity plan. We will reminder you of the activity at that time.</pre>
-  <section id="labels"></section>
-  <section id="addLabel"></section>
-  <section id="taskPlan"></section>
+
+
 </div>
-
-<section id="intraday_activity">
-<strong>Intraday activities by day time.</strong>
-</section>
-
-
-  <section id="weekday_view">
-    <strong>Aggregated activities by weekday.</strong>
-
-  </section>
-
-  <section id="frequency_view">
-    <strong>Your activities barChart.</strong>
-
-  </section>
-
-
-
-    </div>
 
 
 <footer class="footer">
@@ -98,6 +69,6 @@
 
     </body>
 
-		<script src="main.js"></script>
+		<script src="planning.js"></script>
 
 </html>

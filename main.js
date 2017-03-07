@@ -140,5 +140,3 @@ var data = d3.json("./modified_steps_summary.json", function(error, data) {
 	dc.renderAll()
 
 });
-
-var test;
